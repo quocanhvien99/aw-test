@@ -30,22 +30,27 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [errors, setErrors] = useState<Record<string, boolean>>({});
 
     const handleSubmit = () => {
-        // validate information
-        if (!information.name || !information.describe) {
-            errors['information'] = true;
+        try {
+            // validate information
+            if (!information.name || !information.describe) {
+                errors['information'] = true;
+                throw Error();
+            }
+
+            // validate subCampaigns
+            for (const sc of subCampaigns) {
+                if (!sc.name || !sc.ads.length) {
+                    throw Error();
+                }
+
+                // validate ads
+                for (const ad of sc.ads) {
+                    if (!ad.name || !ad.quantity) throw Error();
+                }
+            }
+        } catch (e) {
+            window.alert('Vui lòng điển đầy đủ thông tin');
             return setSubmited(true);
-        }
-
-        // validate subCampaigns
-        for (const sc of subCampaigns) {
-            if (!sc.name || !sc.ads.length) {
-                return setSubmited(true);
-            }
-
-            // validate ads
-            for (const ad of sc.ads) {
-                if (!ad.name || !ad.quantity) return setSubmited(true);
-            }
         }
         setSubmited(false);
         window.alert(
