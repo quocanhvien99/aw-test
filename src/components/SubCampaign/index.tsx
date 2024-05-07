@@ -252,7 +252,7 @@ export const SubCampaign = () => {
                     />
                 </Grid>
             </Grid>
-            <Box>
+            <Box sx={{ borderBottom: 'unset' }}>
                 <Typography variant="h6">DANH SÁCH QUẢNG CÁO</Typography>
                 <DataGrid
                     rows={rows}
